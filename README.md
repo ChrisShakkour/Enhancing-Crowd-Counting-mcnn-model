@@ -2,9 +2,15 @@
 
 This is an unofficial implementation of CVPR 2016 paper ["Single Image Crowd Counting via Multi Column Convolutional Neural Network"](http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Zhang_Single-Image_Crowd_Counting_CVPR_2016_paper.pdf)
 
+# Prerequisites
+1. Install Python3 or higher
+2. Install Matlab
+
 # Installation
-1. Install pytorch
-2. Clone this repository
+1. Install pytorch (pip3 install pytorch)
+
+# Clone repo
+3. Clone this repository
   ```Shell
   git clone https://github.com/svishwa/crowdcount-mcnn.git
   ```
@@ -12,10 +18,9 @@ This is an unofficial implementation of CVPR 2016 paper ["Single Image Crowd Cou
 
 
 # Data Setup
-1. Download ShanghaiTech Dataset from   
-   Dropbox:   https://www.dropbox.com/s/fipgjqxl7uj8hd5/ShanghaiTech.zip?dl=0
+1. Download ShanghaiTech Dataset from Kaggle 
+   https://www.kaggle.com/datasets/tthien/shanghaitech
    
-   Baidu Disk: http://pan.baidu.com/s/1nuAYslz
 2. Create Directory 
   ```Shell
   mkdir ROOT/data/original/shanghaitech/  
