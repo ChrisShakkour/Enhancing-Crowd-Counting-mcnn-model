@@ -1,2 +1,4 @@
-./data/*
-./final_models*
+data*
+final_models*
+output*
+*pycache*
