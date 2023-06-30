@@ -8,6 +8,8 @@ This is an unofficial implementation of CVPR 2016 paper ["Single Image Crowd Cou
 
 # Installation
 1. Install pytorch (pip3 install pytorch)
+2. Install pandas (pip3 install pandas)
+3. Install cv2 (pip3 install cv2)
 
 # Clone repo
 3. Clone this repository
