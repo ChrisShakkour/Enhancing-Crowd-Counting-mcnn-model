@@ -2,3 +2,4 @@ data*
 final_models*
 output*
 *pycache*
+src/saved_models*

@@ -3,12 +3,12 @@ import torch
 import numpy as np
 import sys
 
-from src.crowd_count import CrowdCounter
-from src import network
-from src.data_loader import ImageDataLoader
-from src.timer import Timer
-from src import utils
-from src.evaluate_model import evaluate_model
+from crowd_count import CrowdCounter
+import network
+from data_loader import ImageDataLoader
+from timer import Timer
+import utils
+from evaluate_model import evaluate_model
 
 try:
     from termcolor import cprint
@@ -30,17 +30,17 @@ def log_print(text, color=None, on_color=None, attrs=None):
 
 
 method = 'mcnn'
-dataset_name = 'shtechA'
+dataset_name = 'shtechA_enh'
 output_dir = './saved_models/'
 
-train_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/train'
-train_gt_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/train_den'
-val_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/val'
-val_gt_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/val_den'
+train_path = './../data/formatted_trainval/shanghaitech_part_A_patches_9/train'
+train_gt_path = './../data/formatted_trainval/shanghaitech_part_A_patches_9/train_den'
+val_path = './../data/formatted_trainval/shanghaitech_part_A_patches_9/val'
+val_gt_path = './../data/formatted_trainval/shanghaitech_part_A_patches_9/val_den'
 
 #training configuration
 start_step = 0
-end_step = 2000
+end_step = 300
 lr = 0.00001
 momentum = 0.9
 disp_interval = 500
@@ -94,7 +94,7 @@ t.tic()
 
 data_loader = ImageDataLoader(train_path, train_gt_path, shuffle=True, gt_downsample=True, pre_load=True)
 data_loader_val = ImageDataLoader(val_path, val_gt_path, shuffle=False, gt_downsample=True, pre_load=True)
-best_mae = sys.maxint
+best_mae = sys.maxsize
 
 for epoch in range(start_step, end_step+1):    
     step = -1
@@ -105,7 +105,7 @@ for epoch in range(start_step, end_step+1):
         gt_data = blob['gt_density']
         density_map = net(im_data, gt_data)
         loss = net.loss
-        train_loss += loss.data[0]
+        train_loss += loss.data
         step_cnt += 1
         optimizer.zero_grad()
         loss.backward()

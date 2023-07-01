@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from network import Conv2d
 
+
 class MCNN(nn.Module):
     '''
     Multi-column CNN 
@@ -10,6 +11,15 @@ class MCNN(nn.Module):
     
     def __init__(self, bn=False):
         super(MCNN, self).__init__()
+
+        ENHANCED = 0
+        if ENHANCED:
+            self.branch4 = nn.Sequential(Conv2d( 1, 12, 11, same_padding=True, bn=bn),
+                                         nn.MaxPool2d(2),
+                                         Conv2d(12, 24, 9, same_padding=True, bn=bn),
+                                         nn.MaxPool2d(2),
+                                         Conv2d(24, 12, 9, same_padding=True, bn=bn),
+                                         Conv2d(12,  6, 9, same_padding=True, bn=bn))
         
         self.branch1 = nn.Sequential(Conv2d( 1, 16, 9, same_padding=True, bn=bn),
                                      nn.MaxPool2d(2),
@@ -31,14 +41,22 @@ class MCNN(nn.Module):
                                      nn.MaxPool2d(2),
                                      Conv2d(48, 24, 3, same_padding=True, bn=bn),
                                      Conv2d(24, 12, 3, same_padding=True, bn=bn))
-        
-        self.fuse = nn.Sequential(Conv2d( 30, 1, 1, same_padding=True, bn=bn))
-        
+
+        if ENHANCED:
+            self.fuse = nn.Sequential(Conv2d( 36, 1, 1, same_padding=True, bn=bn))
+        else:
+            self.fuse = nn.Sequential(Conv2d( 30, 1, 1, same_padding=True, bn=bn))
+
+            
     def forward(self, im_data):
+        ENHANCED = 0
         x1 = self.branch1(im_data)
         x2 = self.branch2(im_data)
         x3 = self.branch3(im_data)
-        x = torch.cat((x1,x2,x3),1)
+        if ENHANCED:
+            x4 = self.branch4(im_data)
+            x = torch.cat((x1,x2,x3,x4),1)
+        else:
+            x = torch.cat((x1,x2,x3),1)
         x = self.fuse(x)
-        
         return x
